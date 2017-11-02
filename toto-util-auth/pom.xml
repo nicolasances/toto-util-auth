@@ -4,6 +4,14 @@
 	<artifactId>toto-util-auth</artifactId>
 	<version>1.0.3</version>
 
+	<distributionManagement>
+		<repository>
+			<id>toto-repo</id>
+			<name>Toto Repository</name>
+			<url>https://mymavenrepo.com/repo/O06m7ZGnfJEkY4HnyIQq/</url>
+		</repository>
+	</distributionManagement>
+
 	<build>
 		<resources>
 			<resource>

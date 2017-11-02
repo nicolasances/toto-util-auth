@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+								http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+								http://www.springframework.org/schema/mvc
+								http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+								http://www.springframework.org/schema/context
+								http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="CORSFilter" class="com.imatz.toto.util.auth.CORSFilter"/>
+
+	<bean id="AuthFilter" class="com.imatz.toto.util.auth.AuthFilter">
+		<property name="totoAuthorizationCheck" ref="TotoAuthorizationCheck"></property>
+	</bean>
+	
+	<bean id="TotoAuthorizationCheck" class="com.imatz.toto.util.auth.TotoAuthorizationCheck">
+		<property name="totoWebappAuthorizationCheck" ref="totoWebappAuthCheck"/>
+		<property name="locallyHostedMSAuthorizationCheck" ref="locallyHostedMSAuthCheck"/>
+		<property name="externalAppAuthorizationCheck" ref="externalAppAuthCheck"/>
+	</bean>
+	
+	<bean id="totoWebappAuthCheck" class="com.imatz.toto.util.auth.impl.TotoWebappAuthorizationCheck">
+		<property name="mongoHost" value="${mongo.host}"/>
+		<property name="mongoPort" value="${mongo.port}"/>
+	</bean>
+	<bean id="locallyHostedMSAuthCheck" class="com.imatz.toto.util.auth.impl.LocallyHostedMSAuthorizationCheck">
+	</bean>
+	<bean id="externalAppAuthCheck" class="com.imatz.toto.util.auth.impl.ExternalAppAuthorizationCheck">
+		<property name="mongoHost" value="${mongo.host}"/>
+		<property name="mongoPort" value="${mongo.port}"/>
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:toto.auth.properties</value>
+				<value>classpath:api.properties</value>
+			</list>
+		</property>
+	</bean>
+		
+</beans>
